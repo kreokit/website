@@ -2,7 +2,7 @@
 // notes: describe only what the released version really does, no claims beyond them.
 // Titles, descriptions and h1s follow the search intents in docs/seo.md.
 // Release tags and file names live in data/apps.json (updated after every release), not here.
-import releases from "../../data/apps.json";
+import releases from "../../data/apps.json" with { type: "json" };
 
 const copy = [
   {

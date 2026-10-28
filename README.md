@@ -34,6 +34,10 @@ What each app does is in [`src/lib/apps.mjs`](src/lib/apps.mjs). Take it from th
 
 Each app page shows a placeholder until you add a screenshot: put `public/screenshots/<app>.png` (or `.jpg` / `.webp`, about 16:10, e.g. 1600×1000) in the repository and it replaces the placeholder at the next build.
 
+## Search and sharing
+
+Titles, descriptions and copy follow the search intents in [docs/seo.md](docs/seo.md). Each page has structured data (JSON-LD), Open Graph and Twitter tags. The 1200×630 sharing images in `public/og/` are made by `npm run og` (needs Google Chrome); run it again when an app's name or one-line pitch changes. `npm run check-seo` (after `npm run build`) checks all of it.
+
 ## Development
 
 Needs Node 22.23.4 or later.

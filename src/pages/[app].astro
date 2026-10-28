@@ -13,7 +13,7 @@ export function getStaticPaths() {
 
 const { app } = Astro.props;
 const schema = [
-  softwareApplication(app, `${SITE}/brand/icon-512.png`),
+  softwareApplication(app, `${SITE}/og/${app.slug}.png`),
   faqPage(app.faq, `/${app.slug}`),
   breadcrumbs(app.name, `/${app.slug}`),
 ];
@@ -24,7 +24,13 @@ const shot = ["png", "jpg", "webp"]
   .find((file) => existsSync(`public/${file}`));
 ---
 
-<Base title={app.title} description={app.description} schema={schema}>
+<Base
+  title={app.title}
+  description={app.description}
+  schema={schema}
+  og={app.slug}
+  ogAlt={`${app.fullName}: ${app.short}`}
+>
   <nav class="crumbs" aria-label="Breadcrumb">
     <a href="/">KreoKit</a> <span aria-hidden="true">›</span> <span aria-current="page">{app.name}</span>
   </nav>

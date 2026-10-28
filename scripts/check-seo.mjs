@@ -1,6 +1,6 @@
 // Checks the built pages in dist/ (run `npm run build` first): titles, descriptions,
 // headings, canonical URLs and image alt text. See docs/seo.md.
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 
 const SITE = "https://kreokit.vercel.app";
 const dist = new URL("../dist/", import.meta.url);
@@ -47,6 +47,17 @@ for (const page of pages) {
   }
 
   checkJsonLd(page, path, html);
+
+  // Social sharing: Open Graph + Twitter card with a 1200×630 image that exists.
+  for (const [attr, name] of [["property", "og:title"], ["property", "og:description"], ["property", "og:url"], ["property", "og:image"],
+    ["property", "og:image:alt"], ["name", "twitter:card"], ["name", "twitter:title"], ["name", "twitter:image"]]) {
+    if (!meta(html, attr, name)) fail(page, `missing ${name}`);
+  }
+  const image = meta(html, "property", "og:image");
+  if (!image.startsWith(`${SITE}/og/`) || !existsSync(new URL(image.slice(SITE.length + 1), dist))) fail(page, `og:image must be a file in public/og/: ${image}`);
+  if (meta(html, "property", "og:image:width") !== "1200" || meta(html, "property", "og:image:height") !== "630") fail(page, "og:image must be 1200×630");
+  if (meta(html, "name", "twitter:card") !== "summary_large_image") fail(page, "twitter:card should be summary_large_image");
+  if (!noindex && meta(html, "property", "og:url") !== canonical) fail(page, "og:url must match the canonical URL");
 
   console.log(`ok  ${path.padEnd(10)} ${String(title.length).padStart(2)} | ${String(description.length).padStart(3)} | ${title}`);
 }
