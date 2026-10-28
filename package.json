@@ -1,0 +1,20 @@
+{
+  "name": "kreokit-website",
+  "private": true,
+  "type": "module",
+  "license": "MIT OR Apache-2.0",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "astro dev --port 1500",
+    "build": "astro build",
+    "preview": "astro preview --port 1500",
+    "check-links": "node scripts/check-links.mjs",
+    "sync-releases": "node scripts/sync-releases.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "5.3.0",
+    "astro": "7.4.3"
+  }
+}

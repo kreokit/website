@@ -1,0 +1,106 @@
+---
+// One direct download link per release file. Without JavaScript every file is listed;
+// with it, the visitor's system gets the big button and the rest move to "Other systems".
+// Detection happens only in the browser and nothing is sent anywhere.
+import { downloadUrl, releasesUrl, tagUrl } from "../lib/links.mjs";
+
+const { app } = Astro.props;
+
+const kinds = [
+  { kind: "windows", os: "windows", label: "Windows 10 / 11", main: "Download for Windows" },
+  { kind: "macArm", os: "mac", label: "Mac with Apple Silicon (M1, M2, M3…)", main: "Download for Mac (Apple Silicon)" },
+  { kind: "macIntel", os: "mac", label: "Mac with Intel processor", main: "Download for Mac (Intel)" },
+  { kind: "appImage", os: "linux", label: "Linux, any distribution (AppImage)", main: "Download for Linux (AppImage)" },
+  { kind: "deb", os: "linux", label: "Linux, Debian / Ubuntu (.deb)", main: "Download for Linux (.deb)" },
+];
+const version = app.tag.replace(/^v/, "").replace("-", " ");
+---
+
+<section class="dl panel" data-downloads aria-labelledby={`dl-${app.slug}`}>
+  <h2 id={`dl-${app.slug}`} class="label">Download <span class="badge">{version}</span></h2>
+  <div class="dl-main" data-main hidden></div>
+  <p class="dl-note" data-mac-hint hidden>
+    Not sure which Mac you have? Apple menu → About This Mac: "Chip: Apple M…" means Apple Silicon,
+    "Processor: Intel…" means Intel.
+  </p>
+  <p class="dl-note" data-mobile hidden>
+    {app.fullName} is a desktop app for Windows, Mac and Linux. Open this page on your computer to download it.
+  </p>
+  <p class="label" data-others-title hidden>Other systems</p>
+  <ul class="dl-list" data-list>
+    {kinds.map((k) => (
+      <li data-kind={k.kind} data-os={k.os} data-main-label={k.main}>
+        <a class="dl-btn" href={downloadUrl(app, app.files[k.kind])}>
+          <strong>{k.label}</strong>
+          <span>{app.files[k.kind]}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="dl-note">
+    First time? <a href="/install" data-install-link>How to install and open it</a>: your computer warns
+    you once because the alpha isn't signed yet.
+  </p>
+  <p class="dl-links">
+    <a href={tagUrl(app)}>Release notes</a>
+    <a href={releasesUrl(app)}>All versions</a>
+  </p>
+</section>
+
+<script>
+  type Kind = "windows" | "macArm" | "macIntel" | "appImage" | "deb";
+
+  // Which files to show as the big button(s): one when we know, both Macs when the
+  // browser doesn't say which chip it runs on, none on phones and tablets.
+  async function detect(): Promise<Kind[] | "mobile"> {
+    const nav = navigator as Navigator & { userAgentData?: any };
+    const ua = navigator.userAgent;
+    const platform: string = nav.userAgentData?.platform || navigator.platform || "";
+    const iPad = /Mac/.test(platform) && navigator.maxTouchPoints > 1;
+    if (iPad || /Android|iPhone|iPad|iPod|Mobile/i.test(ua)) return "mobile";
+    if (/Win/i.test(platform) || /Windows/.test(ua)) return ["windows"];
+    if (/Linux|X11/i.test(platform) || /Linux|X11/.test(ua)) return ["appImage"];
+    if (/Mac/i.test(platform) || /Macintosh/.test(ua)) return [await macChip()].flat() as Kind[];
+    return [];
+  }
+
+  async function macChip(): Promise<Kind | Kind[]> {
+    // Chromium browsers say it directly; Safari and Firefox always report "Intel" in
+    // the user agent, so fall back to the graphics name, and to both buttons if unclear.
+    try {
+      const hints = await (navigator as any).userAgentData?.getHighEntropyValues?.(["architecture"]);
+      if (hints?.architecture === "arm") return "macArm";
+      if (hints?.architecture === "x86") return "macIntel";
+    } catch {}
+    try {
+      const gl = document.createElement("canvas").getContext("webgl");
+      const info = gl?.getExtension("WEBGL_debug_renderer_info");
+      const gpu = String((info && gl?.getParameter(info.UNMASKED_RENDERER_WEBGL)) || "");
+      if (/Apple M\d/i.test(gpu)) return "macArm";
+      if (/Intel|AMD|Radeon|NVIDIA/i.test(gpu)) return "macIntel";
+    } catch {}
+    return ["macArm", "macIntel"];
+  }
+
+  for (const box of document.querySelectorAll<HTMLElement>("[data-downloads]")) {
+    detect().then((found) => {
+      const show = (sel: string) => box.querySelector<HTMLElement>(sel)?.removeAttribute("hidden");
+      if (found === "mobile") return show("[data-mobile]");
+      if (found.length === 0) return;
+      const main = box.querySelector<HTMLElement>("[data-main]")!;
+      for (const kind of found) {
+        const item = box.querySelector<HTMLElement>(`[data-kind="${kind}"]`)!;
+        const link = item.querySelector("a")!.cloneNode(true) as HTMLAnchorElement;
+        link.classList.add("btn-primary");
+        link.querySelector("strong")!.textContent = item.dataset.mainLabel!;
+        main.append(link);
+        item.hidden = true;
+      }
+      const os = box.querySelector<HTMLElement>(`[data-kind="${found[0]}"]`)!.dataset.os;
+      box.querySelector<HTMLAnchorElement>("[data-install-link]")!.href = `/install#${os}`;
+      show("[data-main]");
+      show("[data-others-title]");
+      if (found.length > 1) show("[data-mac-hint]");
+    });
+  }
+</script>

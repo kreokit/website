@@ -1,0 +1,68 @@
+---
+import Base from "../layouts/Base.astro";
+import StarIcon from "../components/StarIcon.astro";
+import { apps, ORG_URL } from "../lib/apps.mjs";
+import { repoUrl } from "../lib/links.mjs";
+---
+
+<Base
+  title="KreoKit: free, offline creator apps"
+  description="5 free, offline creator apps for Windows, Mac and Linux: captions, background removal, short clips, voice cleanup and screen recording. No account, no subscription."
+>
+  <section class="hero">
+    <h1>5 free, offline creator apps. No account, no subscription.</h1>
+    <p>
+      Captions, background removal, short clips, voice cleanup and screen recording for Windows, Mac and
+      Linux. Open source, and everything runs on your own computer.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary btn-big" href="#apps">Pick an app</a>
+      <a class="btn btn-big" href={ORG_URL}>KreoKit on GitHub</a>
+    </div>
+  </section>
+
+  <section class="section" id="apps" aria-labelledby="apps-title">
+    <h2 id="apps-title">The apps</h2>
+    <div class="cards">
+      {apps.map((app) => (
+        <a class="card" href={`/${app.slug}`}>
+          <span class="card-top">
+            <h3>{app.fullName}</h3>
+            <span class="badge">Alpha</span>
+          </span>
+          <p>{app.short}</p>
+          <span class="card-more">Learn more and download →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="rules-title">
+    <h2 id="rules-title">The rules</h2>
+    <div class="rules">
+      <div class="rule">
+        <h3>Free</h3>
+        <p>No subscription, no watermark, no paid tier. Open source under MIT / Apache-2.0.</p>
+      </div>
+      <div class="rule">
+        <h3>Offline</h3>
+        <p>Everything runs on your computer and your files never leave it. The only internet use is a one-time AI model download.</p>
+      </div>
+      <div class="rule">
+        <h3>No account</h3>
+        <p>No sign-up, no login, no email. Download, open, create.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section panel star-box" aria-labelledby="star-title">
+    <div>
+      <h2 id="star-title">Like KreoKit? Star it on GitHub</h2>
+      <p class="muted">Stars help other creators find these free apps. Pick the app you use:</p>
+      <p class="star-links">
+        {apps.map((app) => <a href={repoUrl(app)}>★ {app.name}</a>)}
+      </p>
+    </div>
+    <a class="btn btn-primary btn-big" href={ORG_URL}><StarIcon /> Star on GitHub</a>
+  </section>
+</Base>

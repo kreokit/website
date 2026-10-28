@@ -1,0 +1,57 @@
+{
+  "captions": {
+    "repo": "kreokit/captions",
+    "tag": "v0.1.2-alpha",
+    "files": {
+      "windows": "KreoKit.Captions_0.1.2_x64-setup.exe",
+      "macArm": "KreoKit.Captions_0.1.2_aarch64.dmg",
+      "macIntel": "KreoKit.Captions_0.1.2_x64.dmg",
+      "appImage": "KreoKit.Captions_0.1.2_amd64.AppImage",
+      "deb": "KreoKit.Captions_0.1.2_amd64.deb"
+    }
+  },
+  "cutout": {
+    "repo": "kreokit/cutout",
+    "tag": "v0.1.0-alpha",
+    "files": {
+      "windows": "KreoKit.Cutout_0.1.0_x64-setup.exe",
+      "macArm": "KreoKit.Cutout_0.1.0_aarch64.dmg",
+      "macIntel": "KreoKit.Cutout_0.1.0_x64.dmg",
+      "appImage": "KreoKit.Cutout_0.1.0_amd64.AppImage",
+      "deb": "KreoKit.Cutout_0.1.0_amd64.deb"
+    }
+  },
+  "clips": {
+    "repo": "kreokit/clips",
+    "tag": "v0.1.0-alpha",
+    "files": {
+      "windows": "KreoKit.Clips_0.1.0_x64-setup.exe",
+      "macArm": "KreoKit.Clips_0.1.0_aarch64.dmg",
+      "macIntel": "KreoKit.Clips_0.1.0_x64.dmg",
+      "appImage": "KreoKit.Clips_0.1.0_amd64.AppImage",
+      "deb": "KreoKit.Clips_0.1.0_amd64.deb"
+    }
+  },
+  "voice": {
+    "repo": "kreokit/voice",
+    "tag": "v0.1.0-alpha",
+    "files": {
+      "windows": "KreoKit.Voice_0.1.0_x64-setup.exe",
+      "macArm": "KreoKit.Voice_0.1.0_aarch64.dmg",
+      "macIntel": "KreoKit.Voice_0.1.0_x64.dmg",
+      "appImage": "KreoKit.Voice_0.1.0_amd64.AppImage",
+      "deb": "KreoKit.Voice_0.1.0_amd64.deb"
+    }
+  },
+  "rec": {
+    "repo": "kreokit/rec",
+    "tag": "v0.1.0-alpha",
+    "files": {
+      "windows": "KreoKit.Rec_0.1.0_x64-setup.exe",
+      "macArm": "KreoKit.Rec_0.1.0_aarch64.dmg",
+      "macIntel": "KreoKit.Rec_0.1.0_x64.dmg",
+      "appImage": "KreoKit.Rec_0.1.0_amd64.AppImage",
+      "deb": "KreoKit.Rec_0.1.0_amd64.deb"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+---
+import { existsSync } from "node:fs";
+import Base from "../layouts/Base.astro";
+import Downloads from "../components/Downloads.astro";
+import StarIcon from "../components/StarIcon.astro";
+import { apps } from "../lib/apps.mjs";
+import { repoUrl } from "../lib/links.mjs";
+
+export function getStaticPaths() {
+  return apps.map((app) => ({ params: { app: app.slug }, props: { app } }));
+}
+
+const { app } = Astro.props;
+
+// Drop public/screenshots/<app>.png (or .jpg / .webp) in to replace the placeholder.
+const shot = ["png", "jpg", "webp"]
+  .map((ext) => `screenshots/${app.slug}.${ext}`)
+  .find((file) => existsSync(`public/${file}`));
+---
+
+<Base title={`${app.fullName}: free and offline`} description={`${app.short} Free, offline, no account.`}>
+  <div class="app-top">
+    <div class="app-intro">
+      <h1>{app.fullName}</h1>
+      <p class="lead">{app.short}</p>
+      <div class="what">
+        {app.what.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+    <Downloads app={app} />
+  </div>
+
+  <section class="section" aria-label="Screenshot">
+    {shot ? (
+      <div class="shot">
+        <img src={`/${shot}`} alt={`${app.fullName} window`} loading="lazy" />
+      </div>
+    ) : (
+      <div class="shot shot-empty">Screenshot coming soon</div>
+    )}
+  </section>
+
+  <section class="section" aria-labelledby="how-title">
+    <h2 id="how-title">How it works</h2>
+    <ol class="steps">
+      {app.steps.map(([title, text]) => (
+        <li>
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="section" aria-labelledby="req-title">
+    <h2 id="req-title">What you need</h2>
+    <ul class="reqs">
+      {app.requirements.map((r) => <li>{r}</li>)}
+    </ul>
+  </section>
+
+  <section class="section panel star-box" aria-labelledby="star-title">
+    <div>
+      <h2 id="star-title">Like {app.fullName}?</h2>
+      <p class="muted">A star on GitHub helps other creators find it. Found a problem? <a href={`${repoUrl(app)}/issues/new/choose`}>Report it here</a>.</p>
+    </div>
+    <a class="btn btn-big" href={repoUrl(app)}><StarIcon /> Star on GitHub</a>
+  </section>
+</Base>

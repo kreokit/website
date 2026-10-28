@@ -1,0 +1,63 @@
+---
+// Page shell: header, footer and meta. No analytics, no cookies, no third-party requests:
+// the font is bundled and every image is served from this site.
+import "@fontsource-variable/inter/wght.css";
+import "../styles/site.css";
+import { apps, ORG_URL } from "../lib/apps.mjs";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const current = (href: string) => (href === path ? "page" : undefined);
+const ogImage = new URL("/brand/kreokit-icon.png", Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0e0e10" />
+    <link rel="icon" type="image/png" href="/brand/favicon.png" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label="KreoKit home">
+          <img src="/brand/kreokit-logo.png" alt="KreoKit" width="832" height="270" />
+        </a>
+        <nav class="nav" aria-label="Main">
+          {apps.map((app) => (
+            <a class="nav-app" href={`/${app.slug}`} aria-current={current(`/${app.slug}`)}>{app.name}</a>
+          ))}
+          <a href="/install" aria-current={current("/install")}>How to install</a>
+          <a href={ORG_URL}>GitHub</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="wrap">
+        <slot />
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>KreoKit: free, open-source creator apps. MIT / Apache-2.0.</p>
+        <p>No tracking, no cookies. <a href="https://github.com/kreokit/website">Website source</a></p>
+      </div>
+    </footer>
+  </body>
+</html>

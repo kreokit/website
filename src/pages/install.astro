@@ -1,0 +1,101 @@
+---
+import Base from "../layouts/Base.astro";
+import { apps } from "../lib/apps.mjs";
+---
+
+<Base
+  title="How to install KreoKit"
+  description="How to install and open the KreoKit apps on Windows, Mac and Linux, step by step."
+>
+  <section class="hero">
+    <h1>How to install</h1>
+    <p>
+      The KreoKit apps are early test versions (alpha) and aren't signed with paid developer certificates
+      yet. So the first time you open one, your computer warns you. That's expected: here's how to open it,
+      step by step.
+    </p>
+    <nav class="toc" aria-label="Choose your system">
+      <a class="btn" href="#windows">Windows</a>
+      <a class="btn" href="#mac">Mac</a>
+      <a class="btn" href="#linux">Linux</a>
+    </nav>
+  </section>
+
+  <section class="section panel guide" id="windows" aria-labelledby="windows-title">
+    <h2 id="windows-title">Windows 10 / 11</h2>
+    <ol>
+      <li>Download the file that ends in <code>-setup.exe</code> and open it (double-click it in your Downloads folder).</li>
+      <li>If a blue window says <span class="kbd">"Windows protected your PC"</span>, click <span class="kbd">More info</span>, then <span class="kbd">Run anyway</span>.</li>
+      <li>Follow the installer. When it's done, open the app from the Start menu.</li>
+    </ol>
+    <p class="muted small" style="margin-top: 14px">
+      The warning appears because the app is new and unsigned, not because something is wrong with it. You
+      only see it once.
+    </p>
+  </section>
+
+  <section class="section panel guide" id="mac" aria-labelledby="mac-title">
+    <h2 id="mac-title">Mac</h2>
+    <p class="muted" style="margin-top: 10px">
+      Which file? Apple menu → <span class="kbd">About This Mac</span>. "Chip: Apple M…" means
+      <span class="kbd">Apple Silicon</span> (the file ends in <code>_aarch64.dmg</code>); "Processor: Intel…"
+      means <span class="kbd">Intel</span> (<code>_x64.dmg</code>). You need macOS 12 Monterey or later.
+    </p>
+    <ol>
+      <li>Open the <code>.dmg</code> you downloaded and drag the app into the <span class="kbd">Applications</span> folder.</li>
+      <li>Open the app from Applications. If macOS says it can't be opened or can't verify the developer, click <span class="kbd">Done</span> (or <span class="kbd">OK</span>).</li>
+      <li>
+        Open <span class="kbd">System Settings → Privacy & Security</span>, scroll down and click
+        <span class="kbd">Open Anyway</span>, then confirm with <span class="kbd">Open</span> (you may need your password).
+        On macOS 12 it's <span class="kbd">System Preferences → Security & Privacy → General</span>.
+      </li>
+      <li>The app opens. From now on it opens normally.</li>
+    </ol>
+    <h3>If macOS says the app "is damaged"</h3>
+    <p>
+      That's the same missing signature, not real damage. Open <span class="kbd">Terminal</span> (in
+      Applications → Utilities), paste the line for your app, press Return, and open the app again:
+    </p>
+    <pre><code>{apps.map((app) => `xattr -dr com.apple.quarantine "/Applications/${app.fullName}.app"`).join("\n")}</code></pre>
+  </section>
+
+  <section class="section panel guide" id="linux" aria-labelledby="linux-title">
+    <h2 id="linux-title">Linux</h2>
+    <h3>AppImage (any distribution)</h3>
+    <ol>
+      <li>Download the file that ends in <code>.AppImage</code>.</li>
+      <li>
+        Right-click it → <span class="kbd">Properties</span> → <span class="kbd">Permissions</span>, and turn on
+        <span class="kbd">Allow executing file as program</span> (on some systems: "Executable as Program").
+      </li>
+      <li>Double-click it to open the app.</li>
+    </ol>
+    <p>Or in a terminal:</p>
+    <pre><code>chmod +x KreoKit.*.AppImage
+./KreoKit.*.AppImage</code></pre>
+    <p class="muted small">
+      If it doesn't start on Ubuntu 22.04 or later, install FUSE once: <code>sudo apt install libfuse2</code>
+      (Ubuntu 24.04: <code>sudo apt install libfuse2t64</code>), or use the .deb below.
+    </p>
+
+    <h3>.deb (Debian, Ubuntu and similar)</h3>
+    <ol>
+      <li>Download the file that ends in <code>_amd64.deb</code>.</li>
+      <li>Double-click it to install it with your software center, or run this in a terminal from your Downloads folder:</li>
+    </ol>
+    <pre><code>sudo apt install ./KreoKit.*_amd64.deb</code></pre>
+    <p class="muted small">
+      Captions, Cutout, Clips and Voice need glibc 2.35 or later (e.g. Ubuntu 22.04+); Rec needs PipeWire
+      0.3.53 or later (e.g. Ubuntu 24.04).
+    </p>
+  </section>
+
+  <section class="section" aria-labelledby="help-title">
+    <h2 id="help-title">Still stuck?</h2>
+    <p class="muted" style="margin-top: 12px">
+      Tell us what you see and which system you're on: open an issue in the app's repository
+      ({apps.map((app, i) => <>{i > 0 && ", "}<a href={`https://github.com/${app.repo}/issues/new/choose`}>{app.name}</a></>)}),
+      or use ⋯ → Report a problem in the app.
+    </p>
+  </section>
+</Base>
