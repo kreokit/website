@@ -617,3 +617,22 @@ main {
   font-weight: 600;
   color: var(--color-text);
 }
+
+/* Breadcrumb and the app name above an app page's h1 */
+
+.crumbs {
+  font-size: 14px;
+  color: var(--color-text-2);
+  margin: -24px 0 24px;
+}
+
+.crumbs a {
+  color: var(--color-text-2);
+}
+
+.eyebrow {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-2);
+  margin-bottom: 10px;
+}

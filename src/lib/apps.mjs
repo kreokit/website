@@ -6,6 +6,9 @@ import releases from "../../data/apps.json";
 const copy = [
   {
     slug: "captions",
+    title: "Free Auto Caption Generator, No Watermark | KreoKit",
+    description: "Free auto caption generator for Windows, Mac and Linux. Captions your videos offline with Whisper, word-by-word highlight, SRT export. No watermark.",
+    h1: "Free auto captions for your videos, no watermark",
     name: "Captions",
     short: "Auto-captions for your videos, with word-by-word highlight for Reels, TikTok and Shorts.",
     what: [
@@ -25,6 +28,9 @@ const copy = [
   },
   {
     slug: "cutout",
+    title: "Remove Background from Image Free, Offline | KreoKit",
+    description: "Remove the background from images for free, offline on your PC or Mac. Fast and Best AI models, edge refine, new backgrounds, batch export. No sign-up.",
+    h1: "Remove the background from images, free and offline",
     name: "Cutout",
     short: "One-click background removal for your images, one photo or a whole batch.",
     what: [
@@ -44,6 +50,9 @@ const copy = [
   },
   {
     slug: "clips",
+    title: "Turn Long Videos into Shorts Free, Offline | KreoKit",
+    description: "Turn long videos and podcasts into vertical shorts with captions, free and offline. Finds the best moments, follows the speaker, exports 1080×1920 MP4s.",
+    h1: "Turn long videos into shorts with captions, free",
     name: "Clips",
     short: "Turn long videos into vertical short clips with captions.",
     what: [
@@ -63,6 +72,9 @@ const copy = [
   },
   {
     slug: "voice",
+    title: "Remove Background Noise from Audio Free | KreoKit",
+    description: "Remove background noise from audio and video for free, offline. Clean up voice recordings and set the right loudness for social video or podcasts.",
+    h1: "Remove background noise from audio and video, free",
     name: "Voice",
     short: "Remove background noise and polish your voice to the right loudness.",
     what: [
@@ -81,6 +93,9 @@ const copy = [
   },
   {
     slug: "rec",
+    title: "Free Screen Recorder with Webcam, No Watermark | KreoKit",
+    description: "Free screen recorder with webcam and microphone for Windows, Mac and Linux. Trim, add a camera bubble, clean up your voice and export an MP4. No sign-up.",
+    h1: "Free screen recorder with webcam, no watermark",
     name: "Rec",
     short: "Record your screen, camera and mic, then trim, add a camera bubble and export an MP4.",
     what: [

@@ -18,10 +18,14 @@ const shot = ["png", "jpg", "webp"]
   .find((file) => existsSync(`public/${file}`));
 ---
 
-<Base title={`${app.fullName}: free and offline`} description={`${app.short} Free, offline, no account.`}>
+<Base title={app.title} description={app.description}>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">KreoKit</a> <span aria-hidden="true">›</span> <span aria-current="page">{app.name}</span>
+  </nav>
   <div class="app-top">
     <div class="app-intro">
-      <h1>{app.fullName}</h1>
+      <p class="eyebrow">{app.fullName}</p>
+      <h1>{app.h1}</h1>
       <p class="lead">{app.short}</p>
       <div class="what">
         {app.what.map((p) => <p>{p}</p>)}
@@ -33,7 +37,7 @@ const shot = ["png", "jpg", "webp"]
   <section class="section" aria-label="Screenshot">
     {shot ? (
       <div class="shot">
-        <img src={`/${shot}`} alt={`${app.fullName} window`} loading="lazy" />
+        <img src={`/${shot}`} alt={`The ${app.fullName} window: ${app.short}`} loading="lazy" />
       </div>
     ) : (
       <div class="shot shot-empty">Screenshot coming soon</div>
