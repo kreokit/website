@@ -3,6 +3,17 @@
  * surfaces, 1px borders, no gradients, shadows or blur. Lime only for the primary button,
  * active indicators and the focus ring, never large areas.
  */
+/* Arial sized like Inter, so text takes the same space before and after Inter loads
+   (no layout shift). Overrides as used by Next.js / Fontaine for Inter. */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial"), local("ArialMT");
+  size-adjust: 107.12%;
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+}
+
 :root {
   color-scheme: dark;
   --color-bg: #0e0e10;
@@ -18,7 +29,7 @@
   --color-accent-hover: #d6f75e;
   --color-accent-press: #b3da24;
   --color-on-accent: #0e0e10;
-  --font-ui: "Inter Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-ui: "Inter Variable", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --radius-sm: 4px;
   --radius-md: 6px;
@@ -161,6 +172,7 @@ pre code {
 
 .brand img {
   width: 116px;
+  height: 37.5px;
 }
 
 .nav {
