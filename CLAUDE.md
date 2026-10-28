@@ -2,7 +2,7 @@
 
 Read this before every task.
 
-**Status (2026-10-28):** built and pushed. Static Astro site for Vercel (project name `kreokit`, URL https://kreokit.vercel.app; kreo.vercel.app was already taken).
+**Status (2026-10-28):** live at https://kreokit.vercel.app. Static Astro site; Vercel project `kreokit` (account emrindemiri8-1490, Hobby) linked to this repo: every push to `main` deploys to production. Framework Astro, Node 24.x, default build settings, Analytics and Speed Insights off. (kreo.vercel.app was already taken.)
 
 ## Rules
 
@@ -11,6 +11,7 @@ Read this before every task.
 - **Don't invent features.** App copy (`src/lib/apps.mjs`) comes from each app's README, CLAUDE.md and release notes.
 - **Downloads are direct file links** (`/releases/download/<tag>/<file>`), never `/releases/latest` (our releases are pre-releases). Tags and file names live only in `data/apps.json`; URLs are built only in `src/lib/links.mjs` (used by the pages and the link check).
 - **Before every push:** `npm run build` and `npm run check-links` (all links 200).
+- Astro drops the line-break space between text and an inline tag on the next line (`click\n<span>` renders "clickOpen"): end such lines with `{" "}`.
 - Mobile-friendly: no horizontal scroll at 390 px. Headless Chrome won't go below 500 px wide; check phone widths in a 390 px iframe.
 
 ## After an app release

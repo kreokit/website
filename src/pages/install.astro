@@ -37,7 +37,7 @@ import { apps } from "../lib/apps.mjs";
   <section class="section panel guide" id="mac" aria-labelledby="mac-title">
     <h2 id="mac-title">Mac</h2>
     <p class="muted" style="margin-top: 10px">
-      Which file? Apple menu → <span class="kbd">About This Mac</span>. "Chip: Apple M…" means
+      Which file? Apple menu → <span class="kbd">About This Mac</span>. "Chip: Apple M…" means{" "}
       <span class="kbd">Apple Silicon</span> (the file ends in <code>_aarch64.dmg</code>); "Processor: Intel…"
       means <span class="kbd">Intel</span> (<code>_x64.dmg</code>). You need macOS 12 Monterey or later.
     </p>
@@ -45,7 +45,7 @@ import { apps } from "../lib/apps.mjs";
       <li>Open the <code>.dmg</code> you downloaded and drag the app into the <span class="kbd">Applications</span> folder.</li>
       <li>Open the app from Applications. If macOS says it can't be opened or can't verify the developer, click <span class="kbd">Done</span> (or <span class="kbd">OK</span>).</li>
       <li>
-        Open <span class="kbd">System Settings → Privacy & Security</span>, scroll down and click
+        Open <span class="kbd">System Settings → Privacy & Security</span>, scroll down and click{" "}
         <span class="kbd">Open Anyway</span>, then confirm with <span class="kbd">Open</span> (you may need your password).
         On macOS 12 it's <span class="kbd">System Preferences → Security & Privacy → General</span>.
       </li>
@@ -65,7 +65,7 @@ import { apps } from "../lib/apps.mjs";
     <ol>
       <li>Download the file that ends in <code>.AppImage</code>.</li>
       <li>
-        Right-click it → <span class="kbd">Properties</span> → <span class="kbd">Permissions</span>, and turn on
+        Right-click it → <span class="kbd">Properties</span> → <span class="kbd">Permissions</span>, and turn on{" "}
         <span class="kbd">Allow executing file as program</span> (on some systems: "Executable as Program").
       </li>
       <li>Double-click it to open the app.</li>
@@ -74,7 +74,7 @@ import { apps } from "../lib/apps.mjs";
     <pre><code>chmod +x KreoKit.*.AppImage
 ./KreoKit.*.AppImage</code></pre>
     <p class="muted small">
-      If it doesn't start on Ubuntu 22.04 or later, install FUSE once: <code>sudo apt install libfuse2</code>
+      If it doesn't start on Ubuntu 22.04 or later, install FUSE once: <code>sudo apt install libfuse2</code>{" "}
       (Ubuntu 24.04: <code>sudo apt install libfuse2t64</code>), or use the .deb below.
     </p>
 
