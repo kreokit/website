@@ -204,6 +204,17 @@ main {
 }
 
 .site-footer .wrap {
+  display: grid;
+  gap: 16px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.footer-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 24px;
@@ -442,7 +453,7 @@ main {
   text-align: center;
   border-style: dashed;
   border-color: var(--color-border-strong);
-  color: var(--color-text-3);
+  color: var(--color-text-2);
   padding: 16px;
 }
 

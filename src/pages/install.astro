@@ -16,6 +16,10 @@ import { breadcrumbs } from "../lib/schema.mjs";
       yet. So the first time you open one, your computer warns you. That's expected: here's how to open it,
       step by step.
     </p>
+    <p class="small" style="margin-top: 12px">
+      Haven't downloaded an app yet? Pick one:
+      {apps.map((app, i) => <>{i > 0 && " · "}<a href={`/${app.slug}`}>{app.fullName}</a></>)}
+    </p>
     <nav class="toc" aria-label="Choose your system">
       <a class="btn" href="#windows">Windows</a>
       <a class="btn" href="#mac">Mac</a>

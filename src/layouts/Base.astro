@@ -5,6 +5,7 @@ import "@fontsource-variable/inter/wght.css";
 import "../styles/site.css";
 import { apps, ORG_URL } from "../lib/apps.mjs";
 import { jsonLd } from "../lib/schema.mjs";
+import interLatin from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 
 interface Props {
   title: string;
@@ -32,8 +33,11 @@ const ogImage = new URL(`/og/${og}.png`, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0e0e10" />
-    <link rel="icon" type="image/png" href="/brand/favicon.png" />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/brand/icon-192.png" type="image/png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="KreoKit" />
@@ -57,7 +61,7 @@ const ogImage = new URL(`/og/${og}.png`, Astro.site).href;
     <header class="site-header">
       <div class="wrap">
         <a class="brand" href="/" aria-label="KreoKit home">
-          <img src="/brand/kreokit-logo.png" alt="KreoKit" width="832" height="270" />
+          <img src="/brand/kreokit-logo-232.png" alt="KreoKit" width="232" height="75" />
         </a>
         <nav class="nav" aria-label="Main">
           {apps.map((app) => (
@@ -75,8 +79,15 @@ const ogImage = new URL(`/og/${og}.png`, Astro.site).href;
     </main>
     <footer class="site-footer">
       <div class="wrap">
-        <p>KreoKit: free, open-source creator apps. MIT / Apache-2.0.</p>
-        <p>No tracking, no cookies. <a href="https://github.com/kreokit/website">Website source</a></p>
+        <nav class="footer-links" aria-label="Footer">
+          {apps.map((app) => <a href={`/${app.slug}`}>{app.fullName}</a>)}
+          <a href="/install">How to install</a>
+          <a href={ORG_URL}>KreoKit on GitHub</a>
+        </nav>
+        <div class="footer-meta">
+          <p>KreoKit: free, open-source creator apps. MIT / Apache-2.0.</p>
+          <p>No tracking, no cookies. <a href="https://github.com/kreokit/website">Website source</a></p>
+        </div>
       </div>
     </footer>
   </body>
