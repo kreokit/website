@@ -14,6 +14,14 @@ Read this before every task.
 - Astro drops the line-break space between text and an inline tag on the next line (`click\n<span>` renders "clickOpen"): end such lines with `{" "}`.
 - Mobile-friendly: no horizontal scroll at 390 px. Headless Chrome won't go below 500 px wide; check phone widths in a 390 px iframe.
 
+## SEO (2026-10-28)
+
+- One search intent per page, approved by the user: `docs/seo.md`. Honest content only: no keyword stuffing, no competitor names in titles, no ratings or reviews (no `aggregateRating`).
+- Titles ≤ 60 characters, descriptions ≤ 155, one h1, canonical = the clean URL (no `.html`, no trailing slash; `vercel.json` redirects the rest). App copy, titles, h1s and FAQs live in `src/lib/apps.mjs`; JSON-LD in `src/lib/schema.mjs`.
+- Sharing images: `public/og/*.png` (1200×630), made by `npm run og`; re-run when an app's name or pitch changes.
+- Before every push: `npm run build`, `npm run check-seo`, `npm run check-links`. Lighthouse on 2026-10-28: 100 in all four categories on every page, mobile and desktop; keep CLS at 0 (Inter has a metric-matched Arial fallback; images need explicit sizes).
+- Search engine verification tags: constants at the top of `src/layouts/Base.astro`.
+
 ## After an app release
 
 `npm run sync-releases -- <app>` (reads the newest published v* release with `gh`), `npm run check-links`, build, commit, push. Vercel deploys from `main`.
