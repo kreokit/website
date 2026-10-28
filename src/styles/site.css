@@ -636,3 +636,40 @@ main {
   color: var(--color-text-2);
   margin-bottom: 10px;
 }
+
+/* App page content */
+
+.prose {
+  max-width: 720px;
+  color: var(--color-text-2);
+}
+
+.features,
+.faq {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 20px 32px;
+}
+
+.features {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+}
+
+.features p,
+.faq p {
+  margin-top: 6px;
+  color: var(--color-text-2);
+}
+
+.faq > div {
+  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+}
+
+.cards-small {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+}
+
+.cards-small .card {
+  padding: 18px;
+}

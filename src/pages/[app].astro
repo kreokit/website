@@ -44,6 +44,23 @@ const shot = ["png", "jpg", "webp"]
     )}
   </section>
 
+  <section class="section" aria-labelledby="who-title">
+    <h2 id="who-title">Who it's for</h2>
+    <p class="prose">{app.who}</p>
+  </section>
+
+  <section class="section" aria-labelledby="what-title">
+    <h2 id="what-title">What it does</h2>
+    <div class="features">
+      {app.features.map(([title, text]) => (
+        <div>
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="how-title">
     <h2 id="how-title">How it works</h2>
     <ol class="steps">
@@ -57,10 +74,42 @@ const shot = ["png", "jpg", "webp"]
   </section>
 
   <section class="section" aria-labelledby="req-title">
-    <h2 id="req-title">What you need</h2>
+    <h2 id="req-title">System requirements</h2>
     <ul class="reqs">
       {app.requirements.map((r) => <li>{r}</li>)}
     </ul>
+    <p class="muted small" style="margin-top: 12px">
+      The alpha isn't signed yet, so your computer warns you the first time: <a href="/install">here's how to install and open it</a>.
+    </p>
+  </section>
+
+  <section class="section" aria-labelledby="privacy-title">
+    <h2 id="privacy-title">Private and offline</h2>
+    <p class="prose">{app.privacy}</p>
+  </section>
+
+  <section class="section" aria-labelledby="faq-title">
+    <h2 id="faq-title">Frequently asked questions</h2>
+    <div class="faq">
+      {app.faq.map(([q, a]) => (
+        <div>
+          <h3>{q}</h3>
+          <p>{a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="more-title">
+    <h2 id="more-title">More free KreoKit apps</h2>
+    <div class="cards cards-small">
+      {apps.filter((other) => other.slug !== app.slug).map((other) => (
+        <a class="card" href={`/${other.slug}`}>
+          <h3>{other.fullName}</h3>
+          <p>{other.short}</p>
+        </a>
+      ))}
+    </div>
   </section>
 
   <section class="section panel star-box" aria-labelledby="star-title">
