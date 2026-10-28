@@ -4,14 +4,16 @@
 import "@fontsource-variable/inter/wght.css";
 import "../styles/site.css";
 import { apps, ORG_URL } from "../lib/apps.mjs";
+import { jsonLd } from "../lib/schema.mjs";
 
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  schema?: object[];
 }
 
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, schema = [] } = Astro.props;
 // Clean URLs: no trailing slash, no .html (vercel.json redirects the other forms here).
 const path = Astro.url.pathname.replace(/(\.html|\/)$/, "").replace(/\/index$/, "") || "/";
 const canonical = new URL(path, Astro.site).href;
@@ -35,6 +37,7 @@ const ogImage = new URL("/brand/kreokit-icon.png", Astro.site).href;
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary" />
+    {schema.length > 0 && <script type="application/ld+json" set:html={jsonLd(schema)} />}
   </head>
   <body>
     <header class="site-header">

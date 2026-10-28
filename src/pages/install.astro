@@ -1,11 +1,13 @@
 ---
 import Base from "../layouts/Base.astro";
 import { apps } from "../lib/apps.mjs";
+import { breadcrumbs } from "../lib/schema.mjs";
 ---
 
 <Base
   title="How to Install KreoKit on Windows, Mac and Linux"
   description="Install and open the KreoKit apps step by step: “Windows protected your PC” → Run anyway, Mac Open Anyway, and Linux AppImage or .deb."
+  schema={[breadcrumbs("How to install", "/install")]}
 >
   <section class="hero">
     <h1>How to install</h1>

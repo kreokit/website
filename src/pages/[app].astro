@@ -5,12 +5,18 @@ import Downloads from "../components/Downloads.astro";
 import StarIcon from "../components/StarIcon.astro";
 import { apps } from "../lib/apps.mjs";
 import { repoUrl } from "../lib/links.mjs";
+import { breadcrumbs, faqPage, softwareApplication, SITE } from "../lib/schema.mjs";
 
 export function getStaticPaths() {
   return apps.map((app) => ({ params: { app: app.slug }, props: { app } }));
 }
 
 const { app } = Astro.props;
+const schema = [
+  softwareApplication(app, `${SITE}/brand/icon-512.png`),
+  faqPage(app.faq, `/${app.slug}`),
+  breadcrumbs(app.name, `/${app.slug}`),
+];
 
 // Drop public/screenshots/<app>.png (or .jpg / .webp) in to replace the placeholder.
 const shot = ["png", "jpg", "webp"]
@@ -18,7 +24,7 @@ const shot = ["png", "jpg", "webp"]
   .find((file) => existsSync(`public/${file}`));
 ---
 
-<Base title={app.title} description={app.description}>
+<Base title={app.title} description={app.description} schema={schema}>
   <nav class="crumbs" aria-label="Breadcrumb">
     <a href="/">KreoKit</a> <span aria-hidden="true">›</span> <span aria-current="page">{app.name}</span>
   </nav>

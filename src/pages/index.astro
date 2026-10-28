@@ -3,11 +3,13 @@ import Base from "../layouts/Base.astro";
 import StarIcon from "../components/StarIcon.astro";
 import { apps, ORG_URL } from "../lib/apps.mjs";
 import { repoUrl } from "../lib/links.mjs";
+import { organization, website } from "../lib/schema.mjs";
 ---
 
 <Base
   title="Free Tools for Content Creators, Offline | KreoKit"
   description="5 free, offline creator apps for Windows, Mac and Linux: auto captions, background removal, shorts, noise removal, screen recording. No account."
+  schema={[organization(), website()]}
 >
   <section class="hero">
     <h1>5 free, offline creator apps. No account, no subscription.</h1>

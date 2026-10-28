@@ -46,7 +46,59 @@ for (const page of pages) {
     if (!/\balt="[^"]+"/.test(img)) fail(page, `image without alt text: ${img.slice(0, 80)}`);
   }
 
+  checkJsonLd(page, path, html);
+
   console.log(`ok  ${path.padEnd(10)} ${String(title.length).padStart(2)} | ${String(description.length).padStart(3)} | ${title}`);
+}
+
+// Structured data: the types each page must have, with the fields Google and schema.org expect.
+function checkJsonLd(page, path, html) {
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => m[1]);
+  const nodes = [];
+  for (const block of blocks) {
+    try {
+      const data = JSON.parse(block);
+      if (data["@context"] !== "https://schema.org") fail(page, "JSON-LD @context must be https://schema.org");
+      nodes.push(...(data["@graph"] ?? [data]));
+    } catch (e) {
+      fail(page, `JSON-LD doesn't parse: ${e.message}`);
+    }
+  }
+  if (/aggregateRating|"review"/i.test(blocks.join(""))) fail(page, "no ratings or reviews in structured data");
+
+  const isApp = /^\/(captions|cutout|clips|voice|rec)$/.test(path);
+  const expected = path === "/" ? ["Organization", "WebSite"] : isApp ? ["SoftwareApplication", "FAQPage", "BreadcrumbList"] : path === "/install" ? ["BreadcrumbList"] : [];
+  const types = nodes.map((n) => n["@type"]);
+  for (const type of expected) if (!types.includes(type)) fail(page, `missing ${type} structured data`);
+  const text = decode(html.replace(/<script.*?<\/script>/gs, "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ");
+  const links = new Set([...html.matchAll(/href="([^"]+)"/g)].map((m) => decode(m[1])));
+
+  for (const n of nodes) {
+    const need = (keys) => keys.forEach((k) => (n[k] === undefined || n[k] === "") && fail(page, `${n["@type"]} needs "${k}"`));
+    if (n["@type"] === "Organization") need(["name", "url", "logo", "sameAs"]);
+    if (n["@type"] === "WebSite") need(["name", "url", "publisher"]);
+    if (n["@type"] === "SoftwareApplication") {
+      need(["name", "description", "url", "operatingSystem", "softwareVersion", "license", "downloadUrl", "offers"]);
+      if (n.applicationCategory !== "MultimediaApplication") fail(page, "applicationCategory must be MultimediaApplication");
+      if (n.offers?.price !== "0" || !n.offers?.priceCurrency) fail(page, 'offers must be price "0" with a currency');
+      if (n.url !== SITE + path) fail(page, `SoftwareApplication url should be ${SITE}${path}`);
+      for (const url of n.downloadUrl ?? []) if (!links.has(url)) fail(page, `downloadUrl isn't a download link on the page: ${url}`);
+      if ((n.downloadUrl ?? []).length !== 5) fail(page, "SoftwareApplication needs the 5 download URLs");
+    }
+    if (n["@type"] === "FAQPage") {
+      if (!n.mainEntity?.length) fail(page, "FAQPage has no questions");
+      for (const q of n.mainEntity ?? []) {
+        if (q["@type"] !== "Question" || !q.name || !q.acceptedAnswer?.text) fail(page, "each FAQ entry needs a question and an answer");
+        if (!text.includes(q.name) || !text.includes(q.acceptedAnswer?.text)) fail(page, `FAQ entry not shown on the page: ${q.name}`);
+      }
+    }
+    if (n["@type"] === "BreadcrumbList") {
+      n.itemListElement.forEach((item, i) => {
+        if (item.position !== i + 1 || !item.name || !/^https:\/\//.test(item.item)) fail(page, "breadcrumb items need position, name and an absolute URL");
+      });
+      if (n.itemListElement.at(-1)?.item !== SITE + path) fail(page, "the last breadcrumb must be this page");
+    }
+  }
 }
 
 console.log(`\n${pages.length} pages checked, ${errors} problem(s).`);
